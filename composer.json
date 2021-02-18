@@ -1,0 +1,20 @@
+{
+    "name": "shylajhaa/stock-trading",
+    "description": "Application to detect the best stock deal",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Shylajhaa Sathyaram",
+            "email": "rsshylu@hotmail.com"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require": {
+        "php": "7.2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
+    }
+}

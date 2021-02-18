@@ -10,7 +10,7 @@ dealFinder.addEventListener('click', function(event) {
         }
     };
 
-    xhttp.open("POST", "interface.php", true);
+    xhttp.open("POST", "src/interface.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("controller=stocks&action=findMyDeal");
 });

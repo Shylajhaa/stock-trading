@@ -1,10 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Utility;
 
 use App\Controller\StocksController;
-
-require('/Applications/MAMP/htdocs/stock-trading/Controllers/StocksController.php');
 
 /**
  *
