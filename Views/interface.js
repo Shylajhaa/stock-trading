@@ -30,6 +30,7 @@ form.addEventListener('submit', e => {
     var dateRangeTo = document.querySelector('#date-range-to').value;
     
     var formData = new FormData();
+    formData.append('file', uploadedFile);
     formData.append('stock_names', stocks);
     formData.append('date_range_from', dateRangeFrom);
     formData.append('date_range_to', dateRangeTo);
@@ -40,8 +41,7 @@ form.addEventListener('submit', e => {
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             result = JSON.parse(this.responseText);
-            uploadedFile = result['uploaded_file'];
-            populateResult(result['applicable_stocks']);
+            populateResult(result);
         }
     };
 
@@ -64,13 +64,14 @@ fileInput.addEventListener('change', e => {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var parsedResponse = JSON.parse(this.responseText);
+            result = JSON.parse(this.responseText);
+            uploadedFile = result['uploaded_file'];
 
             stockChooser = document.querySelector('#stock-multi-select');
-            for (var stockIndex in parsedResponse) {
+            for (var stockIndex in result['applicable_stocks']) {
                 element = document.createElement('option');
-                elementValue = document.createTextNode(parsedResponse[stockIndex]);
-                element.value = parsedResponse[stockIndex]
+                elementValue = document.createTextNode(result['applicable_stocks'][stockIndex]);
+                element.value = result['applicable_stocks'][stockIndex]
                 element.appendChild(elementValue);
                 stockChooser.appendChild(element);
             }

@@ -30,7 +30,7 @@
                     </div>
                 </div>
 
-                <div id="main-form" style="display: block;">
+                <div id="main-form" style="display: none;">
                     <div class="row">
                         <label>Select 1 or more stocks: </label>
                     </div>
@@ -63,8 +63,10 @@
             </div>
         </form>
     </div>
-    <div>
-        <table id="result-table" style="display: block;border: 3px solid #330c07;border-radius: 10px" class="table table-bordered">
+
+    <br>
+    <div class="container">
+        <table id="result-table" style="display: none;border: 3px solid #330c07;border-radius: 10px" class="table table-bordered">
         </table>
     </div>
 </body>
