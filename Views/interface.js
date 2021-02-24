@@ -25,13 +25,15 @@ form.addEventListener('submit', e => {
 
     e.preventDefault();
 
-    var stocks = document.querySelector('#stock-selector-view').innerHTML;
+    var stocks = document.querySelector('#stock-selector-view');
     var dateRangeFrom = document.querySelector('#date-range-from').value;
     var dateRangeTo = document.querySelector('#date-range-to').value;
+
+    this.validateFormInput(stocks.innerHTML, dateRangeFrom, dateRangeTo);
     
     var formData = new FormData();
     formData.append('file', uploadedFile);
-    formData.append('stock_names', stocks);
+    formData.append('stock_names', stocks.innerHTML);
     formData.append('date_range_from', dateRangeFrom);
     formData.append('date_range_to', dateRangeTo);
     formData.append('controller', 'stocks');
@@ -42,6 +44,8 @@ form.addEventListener('submit', e => {
         if (this.readyState == 4 && this.status == 200) {
             result = JSON.parse(this.responseText);
             populateResult(result);
+            stocks.innerHTML = "";
+            form.reset();
         }
     };
 
@@ -68,12 +72,18 @@ fileInput.addEventListener('change', e => {
             uploadedFile = result['uploaded_file'];
 
             stockChooser = document.querySelector('#stock-multi-select');
+            var resultTableElement = document.querySelector('#result-table');
             for (var stockIndex in result['applicable_stocks']) {
                 element = document.createElement('option');
                 elementValue = document.createTextNode(result['applicable_stocks'][stockIndex]);
                 element.value = result['applicable_stocks'][stockIndex]
                 element.appendChild(elementValue);
                 stockChooser.appendChild(element);
+            }
+
+            while(resultTableElement.hasChildNodes())
+            {
+               resultTableElement.removeChild(resultTableElement.firstChild);
             }
 
             mainForm = document.querySelector('#main-form');
@@ -88,28 +98,58 @@ fileInput.addEventListener('change', e => {
 // function to populate server response into a UI-friendly table
 function populateResult(result) {
     var resultTable = document.querySelector('#result-table');
+    var resultTableContainer = document.querySelector('#result-table-container');
 
+    resultTableContainer.style.display = "block";
+    if (result.length == 0) {
+        this.appendElement('span', "You don't have any matching stocks in the given time period", resultTableContainer);
+
+        return;
+    }
     headerRow = document.createElement("tr");
 
     this.appendElement('th', "Name", headerRow);
     this.appendElement('th', "Profit", headerRow);
     this.appendElement('th', "Buying Date", headerRow);
     this.appendElement('th', "Selling Date", headerRow);
+    this.appendElement('th', "Mean Stock Price", headerRow);
 
     resultTable.appendChild(headerRow);
 
+    var isTopStock = true;
     for (var stockIndex in result) {
         var row = document.createElement("tr");
+        if (isTopStock && result.length > 1) {
+            row.classList.add('best-stock');
+            isTopStock = false;
+        }
 
         this.appendElement('td', result[stockIndex]['name'], row);
         this.appendElement('td', (result[stockIndex]['profit'] * 200), row);
         this.appendElement('td', result[stockIndex]['buy_date'], row);
         this.appendElement('td', result[stockIndex]['sell_date'], row);
+        this.appendElement('td', Math.round(result[stockIndex]['total_price']/result[stockIndex]['total_stocks'], 2), row);
 
         resultTable.appendChild(row);
     }
+}
+    
+// function to validate form input
+function validateFormInput(stocks, dateRangeFrom, dateRangeTo)
+{
+    if (stocks == "") {
+        alert("Choose atleast 1 stock to proceed");
+    }
 
-    resultTable.style.display = "block";
+    if (dateRangeFrom == "" || dateRangeTo == "") {
+        alert("Choose date range to proceed");   
+    }
+
+    fromDate = new Date(dateRangeFrom);
+    toDate = new Date(dateRangeTo);
+    if (fromDate > toDate) {
+        alert("From date should be lesser than to date");
+    }
 }
 
 // function to create and append a DOM element

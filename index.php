@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Know Your Stocks</title>
+    <title>Your Stock Assistant</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="Views/main.css">
+    <link rel="icon" href="assets/web-page-header.png" type="png">
 </head>
 <body style="text-align: center;margin: auto;width: 50%;padding: 5%;">
     <div class="container">
@@ -65,8 +66,8 @@
     </div>
 
     <br>
-    <div class="container">
-        <table id="result-table" style="display: none;border: 3px solid #330c07;border-radius: 10px" class="table table-bordered">
+    <div class="container" id="result-table-container" style="display: none;">
+        <table id="result-table" style="border: 3px solid #330c07;border-radius: 10px;" class="table">
         </table>
     </div>
 </body>
